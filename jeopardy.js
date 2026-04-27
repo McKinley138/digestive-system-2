@@ -224,6 +224,16 @@ finalJeopardyButton.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
 finalJeopardyButton.style.zIndex = '1000';
 document.body.appendChild(finalJeopardyButton);
 
+// Shuffle function to randomize array
+function shuffleArray(array) {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+}
+
 // Add a function to show Final Jeopardy button immediately
 function showFinalJeopardyButton() {
     finalJeopardyButton.style.display = 'block';
@@ -343,8 +353,11 @@ function showQuestion(category, points, cell) {
     questionText.textContent = questionData.question;
     answerOptions.innerHTML = '';
 
+    // Shuffle the options for randomized answer order
+    const shuffledOptions = shuffleArray(questionData.options);
+
     // Create answer buttons
-    questionData.options.forEach(option => {
+    shuffledOptions.forEach(option => {
         const button = document.createElement('button');
         button.textContent = option;
         button.addEventListener('click', (e) => {
